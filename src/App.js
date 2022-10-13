@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addTodo } from "./redux/modules/todos";
 
-function App() {
+const App = () => {
+  const dispatch = useDispatch();
+  const todos = useSelector((state) => state.todos);
+  console.log(todos);
+  const [todo, setTodo] = useState();
+
+  const onChangeHandler = (e) => {
+    setTodo(e.target.value);
+  };
+
+  const onClickHandler = () => {
+    console.log(todo);
+    dispatch(addTodo(todo));
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <div>
+        <div>투두리스트 만들기</div>
+        <input type="text" onChange={onChangeHandler} />
+        <button onClick={onClickHandler}>추가하기</button>
+      </div>
+
+      <div>
+        {todo}
+        {todos.map((value, index) => {
+          console.log(value);
+          return <div key={index}>{value.title}</div>;
+        })}
+      </div>
     </div>
   );
-}
+};
 
 export default App;
